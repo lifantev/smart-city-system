@@ -1,0 +1,114 @@
+---
+version: '3'
+services:
+  agency1:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.endpoint tcp://0.0.0.0:5001
+      --server.authentication false
+      --agency.size 3
+      --agency.supervision true
+      --agency.activate true
+      --agency.my-address=tcp://127.0.0.1:5001
+      --agency.endpoint tcp://127.0.0.1:5001
+      --database.directory /var/lib/arangodb3/agency1
+    network_mode: host
+
+  agency2:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.endpoint tcp://0.0.0.0:5002
+      --server.authentication false
+      --agency.size 3
+      --agency.supervision true
+      --agency.activate true
+      --agency.my-address=tcp://127.0.0.1:5002
+      --agency.endpoint tcp://127.0.0.1:5001
+      --database.directory /var/lib/arangodb3/agency2
+    network_mode: host
+  agency3:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.endpoint tcp://0.0.0.0:5003
+      --server.authentication false
+      --agency.size 3
+      --agency.supervision true
+      --agency.activate true
+      --agency.my-address=tcp://127.0.0.1:5003
+      --agency.endpoint tcp://127.0.0.1:5001
+      --database.directory /var/lib/arangodb3/agency3
+    network_mode: host
+
+  coordinator1:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.authentication=false
+      --server.endpoint tcp://0.0.0.0:7001
+      --cluster.my-address tcp://127.0.0.1:7001
+      --cluster.my-role COORDINATOR
+      --cluster.agency-endpoint tcp://127.0.0.1:5001
+      --cluster.agency-endpoint tcp://127.0.0.1:5002
+      --cluster.agency-endpoint tcp://127.0.0.1:5002
+      --database.directory /var/lib/arangodb3/coordinator1
+    ports: ['8000:8529']
+    network_mode: host
+
+  coordinator2:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.authentication=false
+      --server.endpoint tcp://0.0.0.0:7002
+      --cluster.my-address tcp://127.0.0.1:7002
+      --cluster.my-role COORDINATOR
+      --cluster.agency-endpoint tcp://127.0.0.1:5001
+      --cluster.agency-endpoint tcp://127.0.0.1:5002
+      --cluster.agency-endpoint tcp://127.0.0.1:5003
+      --database.directory /var/lib/arangodb3/coordinator2
+    ports: ['8000:8529']
+    network_mode: host
+
+  db1:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.authentication=false
+      --server.endpoint tcp://0.0.0.0:6001
+      --cluster.my-address tcp://127.0.0.1:6001
+      --cluster.my-role PRIMARY
+      --cluster.agency-endpoint tcp://127.0.0.1:5001
+      --cluster.agency-endpoint tcp://127.0.0.1:5002
+      --cluster.agency-endpoint tcp://127.0.0.1:5003
+      --database.directory /var/lib/arangodb3/primary1
+    network_mode: host
+  db2:
+    image: arangodb:3.3.14
+    environment:
+      - ARANGO_NO_AUTH=1
+    command: >
+      arangod
+      --server.authentication=false
+      --server.endpoint tcp://0.0.0.0:6002
+      --cluster.my-address tcp://127.0.0.1:6002
+      --cluster.my-role PRIMARY
+      --cluster.agency-endpoint tcp://127.0.0.1:5001
+      --cluster.agency-endpoint tcp://127.0.0.1:5002
+      --cluster.agency-endpoint tcp://127.0.0.1:5003
+      --database.directory /var/lib/arangodb3/primary2
+    network_mode: host

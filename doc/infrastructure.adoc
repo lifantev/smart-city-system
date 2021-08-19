@@ -1,0 +1,41 @@
+= Тестовая инфраструктура проекта
+
+== Простая схема для разработки - `sdev`
+
+- 1 Frontend Server
+- 1 Coordinator Server
+- 1 Backend Server (без балансировщика)
+- 1 ArangoDB
+
+[ditaa]
+....
++-------------+
+| Frontend    |
++-------------+
+     |  ^
+     V  |
++-------------+
+| Coordinator |
++----+--------+
+     |  ^
+     V  |
++-------+-----+
+| Backend     |
++-------------+
+     |  ^
+     V  |
+   +------+
+   |{s}   |
+   |Arango|
+   |  DB  |
+   +------+
+....
+
+== Комплексная схема для разработки - `cdev`
+
+* 1 Frontend Server
+* 1 Coordinator Server
+* 2 группы Backend
+** 2 Backend Server (без балансировщика)
+** 1 ArangoDB
+...
