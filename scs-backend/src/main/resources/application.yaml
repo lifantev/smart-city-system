@@ -1,0 +1,15 @@
+management:
+  endpoint:
+    health:
+      show-components: always
+
+server:
+  port: ${SERVER_PORT:8080}
+
+
+spring:
+  data:
+    arangodb:
+      database: ${ARANGO_DATABASE:scs}
+      hosts: ${ARANGO_HOSTS}
+

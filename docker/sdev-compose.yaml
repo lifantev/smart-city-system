@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+  sdev-arango-db:
+    image: arangodb:latest
+    environment:
+      - ARANGO_NO_AUTH=1
+    ports:
+      - "27001:8529"
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+    networks:
+      sdev-network:
+
+
+  sdev-backend:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: sdev-arango-db:8529
+    ports:
+      - "27011:8080"
+    depends_on:
+      - sdev-arango-db
+    networks:
+      sdev-network:
+
+
+  sdev-coordinator:
+    image: netcracker/scs-coordinator:latest
+    ports:
+      - "27021:8080"
+    depends_on:
+      - sdev-backend
+    networks:
+      sdev-network:
+
+  sdev-client:
+    image: netcracker/scs-client:latest
+    ports:
+      - "27077:80"
+    depends_on:
+      - sdev-coordinator
+    networks:
+      sdev-network:
+
+
+
+networks:
+  sdev-network:
+
+
+
+volumes:
+  arangodb_data_container:
+  arangodb_apps_data_container:
