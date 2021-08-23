@@ -17,6 +17,8 @@ services:
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: sdev-arango-db:8529
+      SCS_CLUSTER_POSITIONS: "25:24 15:17 56:78"
+      SCS_CLUSTER_NAME: "Долгопрудный"
     ports:
       - "27011:8080"
     depends_on:

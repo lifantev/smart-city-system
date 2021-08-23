@@ -13,3 +13,9 @@ spring:
       database: ${ARANGO_DATABASE:scs}
       hosts: ${ARANGO_HOSTS}
 
+
+scs:
+  backend:
+    cluster:
+      positions: ${SCS_CLUSTER_POSITIONS}
+      name: ${SCS_CLUSTER_NAME}

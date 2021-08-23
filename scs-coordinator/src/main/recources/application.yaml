@@ -1,0 +1,3 @@
+scs:
+  coordinator:
+    backends: ${SCS_COORDINATOR_BACKENDS}
