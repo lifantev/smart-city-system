@@ -1,6 +1,7 @@
 package com.edu.netcracker.solution.scs.coodinator;
 
-import com.edu.netcracker.solution.scs.backend.BackendInfo;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,13 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/geo-sharding")
+@Slf4j
 public class CoordinatorController {
 
     @Autowired
     private CoordinatorConfigService coordinatorConfigService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/config")
-    public @ResponseBody List<BackendInfo> getInfo(){
+    public @ResponseBody List<BackendInfoDTO> getInfo(){
+        log.warn("first step");
         return coordinatorConfigService.getInfo();
     }
 }

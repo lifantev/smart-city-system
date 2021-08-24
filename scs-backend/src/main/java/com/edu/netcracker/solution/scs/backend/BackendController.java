@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class BackendController {
 
     @Autowired
-    private BackendInfo backendInfo;
+    private BackendInfoServiceImp backendInfoServiceImp;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/config")
-    public @ResponseBody
-    BackendInfo getInfo(){
-        return this.backendInfo;
+    public @ResponseBody BackendInfoDTO getInfo(){
+        return backendInfoServiceImp.getBackendInfoDTO();
     }
 }

@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Component("position")
-public class Position {
+public class PositionDTO {
     private double x;
     private double y;
 }
