@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 public class CoordinatorConfiguration {
 
-    @Value("${scs.coordinator.backends}")
+    @Value("${SCS_COORDINATOR_BACKENDS}")
     private String clusters;
 
     @Bean("backend-clusters")
