@@ -48,6 +48,10 @@ services:
 
   sdev-client:
     image: netcracker/scs-client:latest
+    environment:
+      SCS_COORDINATOR_PROTOCOL: "http"
+      SCS_COORDINATOR_HOST: "sdev-coordinator"
+      SCS_COORDINATOR_PORT: "8080"
     ports:
       - "27077:80"
     depends_on:

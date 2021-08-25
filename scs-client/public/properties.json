@@ -1,0 +1,5 @@
+{
+  "scs-coordinator-protocol" : "${SCS_COORDINATOR_PROTOCOL}",
+  "scs-coordinator-host" : "${SCS_COORDINATOR_HOST}",
+  "scs-coordinator-port" : "${SCS_COORDINATOR_PORT}"
+}
