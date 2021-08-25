@@ -38,7 +38,7 @@ services:
   sdev-coordinator:
     image: netcracker/scs-coordinator:latest
     environment:
-      SCS_COORDINATOR_BACKENDS: "localhost:8080"
+      SCS_COORDINATOR_BACKENDS: "sdev-backend:8080"
     ports:
       - "27021:8080"
     depends_on:

@@ -22,7 +22,6 @@ public class CoordinatorConfigService {
     private List<List<Pair<String, Integer>>> clusters;
 
     public List<BackendInfoDTO> getInfo(){
-        log.warn("method start");
         List<BackendInfoDTO> list = new ArrayList<>();
         for (List<Pair<String, Integer>> cluster: clusters) {
             CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
@@ -30,7 +29,7 @@ public class CoordinatorConfigService {
             headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
             headers.setContentType(MediaType.APPLICATION_JSON);
             BackendInfoDTO backendInfoDTO = coordinatorRestTemplate.getForObject(URL, BackendInfoDTO.class, headers);
-            log.warn("comes from request {{}}", backendInfoDTO);
+            log.debug("Comes from request {{}}", backendInfoDTO);
             list.add(backendInfoDTO);
         }
         return list;

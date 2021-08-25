@@ -19,7 +19,7 @@ public class CoordinatorConfiguration {
     private String clusters;
 
     @Bean("backend-clusters")
-    public List<List<Pair<String, Integer>>> backendClusters(){
+    public List<List<Pair<String, Integer>>> backendClusters() throws Exception {
         String [] list1 = clusters.split(" ");
         List<List<String>> backends = new ArrayList<>();
         for (int i = 0; i < list1.length; i++) {
@@ -31,7 +31,9 @@ public class CoordinatorConfiguration {
         for (int i = 0; i < backends.size(); i++) {
             for (int j = 0; j < backends.get(i).size(); j++) {
                 String[] list = backends.get(i).get(j).split(":");
-                if(list.length != 2) log.warn("Value of {} is not available", clusters);
+                if(list.length != 2){
+                    throw new Exception("Wring format for SCS_COORDINATOR_BACKENDS environment variable, unable to parse");
+                }
                 helpList.add(Pair.of(list[0], Integer.parseInt(list[1])));
             }
             List<Pair<String, Integer>> valueOfHelpList = new ArrayList<>();

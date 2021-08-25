@@ -20,7 +20,6 @@ public class CoordinatorController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/config")
     public @ResponseBody List<BackendInfoDTO> getInfo(){
-        log.warn("first step");
         return coordinatorConfigService.getInfo();
     }
 }

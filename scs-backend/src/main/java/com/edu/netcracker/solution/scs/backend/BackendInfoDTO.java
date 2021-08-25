@@ -15,18 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-//@Configuration
 public class BackendInfoDTO {
 
-//    @Value("${SCS_CLUSTER_NAME}")
     private String name;
 
-
-//    @Autowired
-//    @Qualifier("backend-positions")
     private List<PositionDTO> positions;
 
-//    public BackendInfo(PositionConfiguration positionConfiguration){
-//        positions = positionConfiguration.getPos();
-//    }
 }

@@ -16,12 +16,14 @@ public class PositionConfiguration {
     private String position;
 
     @Bean("backend-positions")
-    public List<PositionDTO> getPos() {
+    public List<PositionDTO> getPos() throws Exception {
         String [] positions = position.split(" ");
         List<PositionDTO> positionsList = new ArrayList<>();
         for (int i = 0; i < positions.length; i++) {
             String[] helpPos = positions[i].split(":");
-            if(helpPos.length != 2) log.warn("Value of position is not available {{}}", position);
+            if(helpPos.length != 2) {
+                throw new Exception("Wring format for SCS_CLUSTER_POSITIONS environment variable, unable to parse");
+            }
             positionsList.add(new PositionDTO(Double.parseDouble(helpPos[0]), Double.parseDouble(helpPos[1])));
         }
         return positionsList;
