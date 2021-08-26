@@ -1,0 +1,134 @@
+# http://localhost:27011/api/v1/data
+
+### get with geo position
+
+GET http://localhost:27011/api/v1/data/geo?x1=1.0&x2=90.0&y1=10.0&y2=80.0
+
+### get by id
+
+GET http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+
+### delete by id
+
+DELETE http://localhost:27011/api/v1/data/3699703e-c308-4c47-9a4f-40c095bb49ca
+
+### valid, with all fields
+
+POST http://localhost:27011/api/v1/data
+Content-Type: application/json
+
+{
+  "type": "ip-camera",
+  "name": "IP Camera#51",
+  "description": "Simple description",
+  "geo-pos-x": 123.123,
+  "geo-pos-y": 31.41,
+  "parameters": {
+    "model-name": "HAC-ME1200D-LS",
+    "serial-num": "122343431934"
+  }
+}
+
+### valid, with all fields
+
+POST http://localhost:27011/api/v1/data
+Content-Type: application/json
+
+{
+  "type": "base-station",
+  "name": "BaseStation 1",
+  "description": "Simple description",
+  "geo-pos-x": 80.0,
+  "geo-pos-y": 20.0,
+  "parameters": {
+    "model-name": "HAC-ME1200D-LS",
+    "serial-num": "122343431934"
+  }
+}
+
+### valid, another type, no description
+
+POST http://localhost:27011/api/v1/data
+Content-Type: application/json
+
+{
+  "type": "wifi-router",
+  "name": "WiFi#52",
+  "geo-pos-x": 95.0,
+  "geo-pos-y": 35.0,
+  "parameters": {
+    "serial-num": "AAAAAAAAAA"
+  }
+}
+
+### invalid, no geo-pos-x
+
+POST http://localhost:27011/api/v1/data
+Content-Type: application/json
+
+{
+  "type": "ip-camera",
+  "name": "IP Camera#52",
+  "geo-pos-y": 31.41,
+  "parameters": {
+    "serial-num": "AAAAAAAAAA"
+  }
+}
+
+### invalid, no name
+
+POST http://localhost:27011/api/v1/data
+Content-Type: application/json
+
+{
+  "type": "ip-camera",
+  "geo-pos-x": 123.123,
+  "geo-pos-y": 31.41,
+  "parameters": {
+    "serial-num": "AAAAAAAAAA"
+  }
+}
+
+### patch to object without model name, with changes to position and type
+
+PATCH http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+Content-Type: application/json
+
+{
+  "type": "info-table",
+  "geo-pos-x": 15.0,
+  "parameters": {
+    "model-name": "HAC-ME1200D-LS"
+  }
+}
+
+### valid, with all fields
+
+PUT http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+Content-Type: application/json
+
+{
+  "type": "lamp-post",
+  "name": "Lamp Post #1",
+  "description": "Simple description",
+  "geo-pos-x": 123.123,
+  "geo-pos-y": 31.41,
+  "parameters": {
+    "model-name": "HAC-ME1200D-LS",
+    "serial-num": "122343431934"
+  }
+}
+
+### invalid, no name
+
+PUT http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+Content-Type: application/json
+
+{
+  "type": "ip-camera",
+  "geo-pos-x": 123.123,
+  "geo-pos-y": 31.41,
+  "parameters": {
+    "serial-num": "AAAAAAAAAA"
+  }
+}
