@@ -1,7 +1,9 @@
 import './App.css';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {Geoview} from './components/geoview/Geoview.js';
 
 function App() {
 
@@ -19,9 +21,13 @@ function App() {
         [])
 
     return isLoaded ?
-        <div className="App">
-            Hello world 2!
-        </div> :
+        <main>
+            <Router>
+                <Switch>
+                    <Route path="/geoview" component={Geoview} />
+                </Switch>
+            </Router>
+        </main> :
         <div>Loading</div>;
 }
 
