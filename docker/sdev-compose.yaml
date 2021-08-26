@@ -50,8 +50,8 @@ services:
     image: netcracker/scs-client:latest
     environment:
       SCS_COORDINATOR_PROTOCOL: "http"
-      SCS_COORDINATOR_HOST: "sdev-coordinator"
-      SCS_COORDINATOR_PORT: "8080"
+      SCS_COORDINATOR_HOST: "localhost"
+      SCS_COORDINATOR_PORT: "27021"
     ports:
       - "27077:80"
     depends_on:
