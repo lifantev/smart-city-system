@@ -16,6 +16,8 @@ spring:
 
 scs:
   backend:
+    data:
+      model: ${MODEL_DOLGOPRUDNII}
     cluster:
       positions: ${SCS_CLUSTER_POSITIONS}
       name: ${SCS_CLUSTER_NAME}

@@ -1,0 +1,60 @@
+types:
+  - type: ip-camera
+    displayed-name: IP Camera
+    icon: <base64 icon>
+    attributes:
+      - name: model-name
+        displayed-name: Model Name
+        type: text
+      - name: serial-num
+        displayed-name: Serial Number
+        type: text
+    actions: on/off
+
+  - type: wifi-router
+    displayed-name: Wi-Fi
+    icon: <base64 icon>
+    attributes:
+      - name: model-name
+        displayed-name: Model Name
+        type: text
+      - name: serial-num
+        displayed-name: Serial Number
+        type: text
+    actions: on/off
+
+  - type: lamp-post
+    displayed-name: Lamp Post
+    icon: <base64 icon>
+    attributes:
+      - name: model-name
+        displayed-name: Model Name
+        type: text
+      - name: serial-num
+        displayed-name: Serial Number
+        type: text
+    actions: on/off
+
+  - type: info-table
+    displayed-name: Information Table
+    icon: <base64 icon>
+    attributes:
+      - name: model-name
+        displayed-name: Model Name
+        type: text
+      - name: serial-num
+        displayed-name: Serial Number
+        type: text
+    actions: on/off
+
+  - type: base-station
+    displayed-name: Base Station
+    icon: <base64 icon>
+    attributes:
+      - name: model-name
+        displayed-name: Model Name
+        type: text
+      - name: serial-num
+        displayed-name: Serial Number
+        type: text
+    actions: on/off
