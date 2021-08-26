@@ -1,5 +1,6 @@
-package com.edu.netcracker.solution.scs.coodinator;
+package com.edu.netcracker.solution.scs.coodinator.services;
 
+import com.edu.netcracker.solution.scs.coodinator.backendInfo.BackendInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service("coordinator-config-service")
 @Slf4j
-public class CoordinatorConfigService {
+public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
 
     @Value("/api/v1/geo-sharding/config")
     private String URL;

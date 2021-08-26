@@ -1,10 +1,10 @@
-package com.edu.netcracker.solution.scs.backend;
+package com.edu.netcracker.solution.scs.backend.clusterconfi.position;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+
 
 @Data
 @AllArgsConstructor
@@ -14,3 +14,4 @@ public class PositionDTO {
     private double x;
     private double y;
 }
+
