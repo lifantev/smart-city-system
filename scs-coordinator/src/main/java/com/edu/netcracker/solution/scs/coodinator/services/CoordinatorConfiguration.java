@@ -1,4 +1,4 @@
-package com.edu.netcracker.solution.scs.coodinator;
+package com.edu.netcracker.solution.scs.coodinator.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;

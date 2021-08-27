@@ -1,4 +1,4 @@
-package com.edu.netcracker.solution.scs.coodinator;
+package com.edu.netcracker.solution.scs.coodinator.backendInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

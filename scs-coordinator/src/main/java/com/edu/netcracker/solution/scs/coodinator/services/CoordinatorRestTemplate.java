@@ -1,4 +1,4 @@
-package com.edu.netcracker.solution.scs.coodinator;
+package com.edu.netcracker.solution.scs.coodinator.services;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

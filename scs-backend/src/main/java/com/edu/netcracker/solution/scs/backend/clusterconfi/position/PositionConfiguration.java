@@ -1,5 +1,6 @@
-package com.edu.netcracker.solution.scs.backend;
+package com.edu.netcracker.solution.scs.backend.clusterconfi.position;
 
+import com.edu.netcracker.solution.scs.backend.clusterconfi.position.PositionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,8 @@
-package com.edu.netcracker.solution.scs.coodinator;
+package com.edu.netcracker.solution.scs.coodinator.services;
 
 
+import com.edu.netcracker.solution.scs.coodinator.backendInfo.BackendInfoDTO;
+import com.edu.netcracker.solution.scs.coodinator.services.CoordinatorConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
