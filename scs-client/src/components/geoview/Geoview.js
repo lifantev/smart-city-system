@@ -2,6 +2,8 @@ import React from 'react';
 import './Geoview.css'
 import {MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
+import {getAxios} from '../UtilityClass.js';
+import axios from "axios";
 
 function LogCenterZoom() {
     const map = useMapEvents({
@@ -26,6 +28,13 @@ export function Geoview(){
                 />
                 <LogCenterZoom/>
             </MapContainer>
+            {getCoordConfig()}
         </div>
     );
+}
+
+function getCoordConfig(){
+    console.log('getCoordConfig start')
+    let str = getAxios().get(`/api/v1/geo-sharding/config`)
+    console.log('getCoordCinfig finish')
 }
