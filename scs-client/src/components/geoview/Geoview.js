@@ -36,5 +36,6 @@ export function Geoview(){
 function getCoordConfig(){
     console.log('getCoordConfig start')
     let str = getAxios().get(`/api/v1/geo-sharding/config`)
+    console.log(str)
     console.log('getCoordCinfig finish')
 }
