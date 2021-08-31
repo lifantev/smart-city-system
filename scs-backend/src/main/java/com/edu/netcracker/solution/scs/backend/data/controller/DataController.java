@@ -36,7 +36,7 @@ public class DataController {
             throws RestException {
 
         // fetch types
-        String typesStr = dataService.getTypesInArea(x1, x2, y1, y2);
+        String typesStr = dataService.getAllTypes();
         JSONObject typesJson = new JSONObject(typesStr);
 
         // fetch objects
@@ -58,6 +58,13 @@ public class DataController {
             throws RestException {
 
         return new ResponseEntity<>(dataService.getObject(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/types", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<String> getAllTypes() {
+        String typesStr = dataService.getAllTypes();
+        JSONObject typesJson = new JSONObject(typesStr);
+        return new ResponseEntity<>(typesJson.get("types").toString(), HttpStatus.OK);
     }
 
     /**
