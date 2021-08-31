@@ -16,6 +16,7 @@ spring:
 
 scs:
   backend:
+    shard-id: 123
     data:
       model: ${MODEL_DOLGOPRUDNII}
     cluster:

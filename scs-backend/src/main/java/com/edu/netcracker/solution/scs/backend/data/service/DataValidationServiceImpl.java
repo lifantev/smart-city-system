@@ -42,11 +42,11 @@ public class DataValidationServiceImpl implements DataValidationService {
     @Override
     public void validateType(String type) throws RestException {
         log.debug("Validating object types");
-        String json = typeRepository.findAllTypeJson();
+        String json = typeRepository.findAllTypesJson();
 
         // TODO : improve search
 
-        String searchType = "\"type\":" + "\"" + type + "\"";
+        String searchType = String.format("\"type\":\"%s\"", type);
         if (!json.contains(searchType)) {
             log.error("Validating error for type {{}} in {{}}, searched by {{}}", type, json, searchType);
             throw new RestException(RestExceptionEnum.ERR_000_004);

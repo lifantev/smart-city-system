@@ -11,7 +11,7 @@ public interface DataService {
     List<ScsObjectDto> getObjectsInArea(double x1, double x2, double y1, double y2)
             throws RestException;
 
-    String getTypesInArea(double x1, double x2, double y1, double y2);
+    String getAllTypes();
 
     ScsObjectDto getObject(String id) throws RestException;
 

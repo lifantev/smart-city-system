@@ -6,11 +6,15 @@ GET http://localhost:27011/api/v1/data/geo?x1=1.0&x2=90.0&y1=10.0&y2=80.0
 
 ### get by id
 
-GET http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+GET http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a78
+
+### get by id
+
+GET http://localhost:27011/api/v1/data/types
 
 ### delete by id
 
-DELETE http://localhost:27011/api/v1/data/3699703e-c308-4c47-9a4f-40c095bb49ca
+DELETE http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a78
 
 ### valid, with all fields
 
