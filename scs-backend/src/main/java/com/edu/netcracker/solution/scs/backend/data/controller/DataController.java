@@ -60,7 +60,7 @@ public class DataController {
         return new ResponseEntity<>(dataService.getObject(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/types", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/model", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> getAllTypes() {
         String typesStr = dataService.getAllTypes();
         JSONObject typesJson = new JSONObject(typesStr);
