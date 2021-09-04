@@ -45,6 +45,12 @@ types:
       - name: serial-num
         displayed-name: Serial Number
         type: text
+      - name: owner
+        displayed-name: Owner of device
+        type: text
+      - name: postal-code
+        displayed-name: Postal Code
+        type: text
     actions: on/off
 
   - type: base-station
@@ -56,5 +62,8 @@ types:
         type: text
       - name: serial-num
         displayed-name: Serial Number
+        type: text
+      - name: power
+        displayed-name: Power
         type: text
     actions: on/off
