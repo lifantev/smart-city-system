@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  cdev-arango-db:
+  cdev-arango-db-1:
     image: arangodb:latest
     environment:
       - ARANGO_NO_AUTH=1
@@ -13,11 +13,37 @@ services:
       cdev-network:
 
 
+  cdev-arango-db-2:
+    image: arangodb:latest
+    environment:
+      - ARANGO_NO_AUTH=1
+    ports:
+      - "27002:8529"
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+    networks:
+      cdev-network:
 
-  cdev-backend-1:
+
+  cdev-arango-db-3:
+    image: arangodb:latest
+    environment:
+      - ARANGO_NO_AUTH=1
+    ports:
+      - "27003:8529"
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+    networks:
+      cdev-network:
+
+
+
+  cdev-backend-1-1:
     image: netcracker/scs-backend:latest
     environment:
-      ARANGO_HOSTS: cdev-arango-db:8529
+      ARANGO_HOSTS: cdev-arango-db-1:8529
       MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
       SCS_CLUSTER_POSITIONS: >-
         55.8974:37.5070 55.9066:37.5008 55.9072:37.4839 55.9130:37.4824 55.9311:37.4884
@@ -32,14 +58,14 @@ services:
     ports:
       - "27011:8080"
     depends_on:
-      - cdev-arango-db
+      - cdev-arango-db-1
     networks:
       cdev-network:
 
-  cdev-backend-2:
+  cdev-backend-1-2:
       image: netcracker/scs-backend:latest
       environment:
-        ARANGO_HOSTS: cdev-arango-db:8529
+        ARANGO_HOSTS: cdev-arango-db-1:8529
         MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
         SCS_CLUSTER_POSITIONS: >-
           55.8974:37.5070 55.9066:37.5008 55.9072:37.4839 55.9130:37.4824 55.9311:37.4884
@@ -54,49 +80,169 @@ services:
       ports:
         - "27012:8080"
       depends_on:
-        - cdev-arango-db
+        - cdev-arango-db-1
       networks:
         cdev-network:
 
 
+  cdev-backend-2-1:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: cdev-arango-db-2:8529
+      MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.9263:37.7139 55.9330:37.7714 55.8888:37.7701
+      SCS_CLUSTER_NAME: "Мытищи"
+    ports:
+      - "27021:8080"
+    depends_on:
+      - cdev-arango-db-2
+    networks:
+      cdev-network:
 
-  cdev-haproxy-1:
+  cdev-backend-2-2:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: cdev-arango-db-2:8529
+      MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.9263:37.7139 55.9330:37.7714 55.8888:37.7701
+      SCS_CLUSTER_NAME: "Мытищи"
+    ports:
+      - "27022:8080"
+    depends_on:
+      - cdev-arango-db-2
+    networks:
+      cdev-network:
+
+
+  cdev-backend-3-1:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: cdev-arango-db-3:8529
+      MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.8084:37.3915 55.8666:37.3650 55.8273:37.2733
+      SCS_CLUSTER_NAME: "Красногорск"
+    ports:
+      - "27031:8080"
+    depends_on:
+      - cdev-arango-db-3
+    networks:
+      cdev-network:
+
+  cdev-backend-3-2:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: cdev-arango-db-3:8529
+      MODEL_DOLGOPRUDNII: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.8084:37.3915 55.8666:37.3650 55.8273:37.2733
+      SCS_CLUSTER_NAME: "Красногорск"
+    ports:
+      - "27032:8080"
+    depends_on:
+      - cdev-arango-db-3
+    networks:
+      cdev-network:
+
+
+
+  cdev-haproxy-1-1:
     image: netcracker/scs-backend-haproxy:latest
     environment:
-      SCS_BACKENDS: cdev-backend-1 cdev-backend-2
+      SCS_BACKENDS: cdev-backend-1-1 cdev-backend-1-2
       SCS_BACKEND_PORT: 8080
     ports:
       - "8081:8080"
     depends_on:
-      - cdev-backend-1
-      - cdev-backend-2
+      - cdev-backend-1-1
+      - cdev-backend-1-2
     networks:
       cdev-network:
 
-  cdev-haproxy-2:
+  cdev-haproxy-1-2:
     image: netcracker/scs-backend-haproxy:latest
     environment:
-      SCS_BACKENDS: cdev-backend-1 cdev-backend-2
+      SCS_BACKENDS: cdev-backend-1-1 cdev-backend-1-2
       SCS_BACKEND_PORT: 8080
     ports:
       - "8082:8080"
     networks:
       cdev-network:
     depends_on:
-      - cdev-backend-1
-      - cdev-backend-2
+      - cdev-backend-1-1
+      - cdev-backend-1-2
+
+
+  cdev-haproxy-2-1:
+    image: netcracker/scs-backend-haproxy:latest
+    environment:
+      SCS_BACKENDS: cdev-backend-2-1 cdev-backend-2-2
+      SCS_BACKEND_PORT: 8080
+    ports:
+      - "8083:8080"
+    depends_on:
+      - cdev-backend-2-1
+      - cdev-backend-2-2
+    networks:
+      cdev-network:
+
+  cdev-haproxy-2-2:
+    image: netcracker/scs-backend-haproxy:latest
+    environment:
+      SCS_BACKENDS: cdev-backend-2-1 cdev-backend-2-2
+      SCS_BACKEND_PORT: 8080
+    ports:
+      - "8084:8080"
+    networks:
+      cdev-network:
+    depends_on:
+      - cdev-backend-1-1
+      - cdev-backend-1-2
+
+
+  cdev-haproxy-3-1:
+    image: netcracker/scs-backend-haproxy:latest
+    environment:
+      SCS_BACKENDS: cdev-backend-3-1 cdev-backend-3-2
+      SCS_BACKEND_PORT: 8080
+    ports:
+      - "8085:8080"
+    depends_on:
+      - cdev-backend-3-1
+      - cdev-backend-3-2
+    networks:
+      cdev-network:
+
+  cdev-haproxy-3-2:
+    image: netcracker/scs-backend-haproxy:latest
+    environment:
+      SCS_BACKENDS: cdev-backend-3-1 cdev-backend-3-2
+      SCS_BACKEND_PORT: 8080
+    ports:
+      - "8086:8080"
+    networks:
+      cdev-network:
+    depends_on:
+      - cdev-backend-3-1
+      - cdev-backend-3-2
 
 
 
   cdev-coordinator:
     image: netcracker/scs-coordinator:latest
     environment:
-      SCS_COORDINATOR_BACKENDS: "cdev-haproxy-1:8080|cdev-haproxy-2:8080"
+      SCS_COORDINATOR_BACKENDS: "cdev-haproxy-1-1:8080|cdev-haproxy-1-2:8080 cdev-haproxy-2-1:8080|cdev-haproxy-2-2:8080 cdev-haproxy-3-1:8080|cdev-haproxy-3-2:8080"
     ports:
-      - "27021:8080"
+      - "27066:8080"
     depends_on:
-      - cdev-haproxy-1
-      - cdev-haproxy-2
+      - cdev-haproxy-1-1
+      - cdev-haproxy-1-2
+      - cdev-haproxy-2-1
+      - cdev-haproxy-2-2
+      - cdev-haproxy-3-1
+      - cdev-haproxy-3-2
     networks:
       cdev-network:
 
@@ -107,7 +253,7 @@ services:
     environment:
       SCS_COORDINATOR_PROTOCOL: "http"
       SCS_COORDINATOR_HOST: "localhost"
-      SCS_COORDINATOR_PORT: "27021"
+      SCS_COORDINATOR_PORT: "27066"
     ports:
       - "27077:80"
     depends_on:

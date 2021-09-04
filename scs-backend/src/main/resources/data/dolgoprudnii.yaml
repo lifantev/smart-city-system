@@ -21,6 +21,9 @@ types:
       - name: serial-num
         displayed-name: Serial Number
         type: text
+      - name: manufacturer
+        displayed-name: Manufacturer
+        type: text
     actions: on/off
 
   - type: lamp-post
@@ -29,9 +32,6 @@ types:
     attributes:
       - name: model-name
         displayed-name: Model Name
-        type: text
-      - name: serial-num
-        displayed-name: Serial Number
         type: text
     actions: on/off
 
