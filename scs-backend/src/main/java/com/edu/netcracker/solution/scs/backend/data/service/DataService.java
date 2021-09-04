@@ -13,6 +13,8 @@ public interface DataService {
 
     String getAllTypes();
 
+    List<ScsObjectDto> getAllObjects() throws RestException;
+
     ScsObjectDto getObject(String id) throws RestException;
 
     @NotNull

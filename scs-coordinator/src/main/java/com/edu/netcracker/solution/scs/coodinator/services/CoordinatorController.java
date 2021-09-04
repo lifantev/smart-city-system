@@ -2,9 +2,10 @@ package com.edu.netcracker.solution.scs.coodinator.services;
 
 
 import com.edu.netcracker.solution.scs.coodinator.backendInfo.BackendInfoDTO;
-import com.edu.netcracker.solution.scs.coodinator.services.CoordinatorConfigService;
+import com.edu.netcracker.solution.scs.coodinator.backendInfo.ScsObjectDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,17 +24,18 @@ public class CoordinatorController {
         return coordinatorConfigService.getInfo();
     }
 
-    //TODO: make this method
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET, value = "/{shard-id}/model")
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/{shard-id}/model",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String getModel(@PathVariable("shard-id") String shardId) {
-        return "[]";
+        return coordinatorConfigService.getModel(shardId);
     }
 
-    //TODO: make this method also
     @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, value = "/{shard-id}/objects")
-    public @ResponseBody String getObjects(@PathVariable("shard-id") String shardId) {
-        return "[]";
+    public @ResponseBody List<ScsObjectDTO> getObjects(@PathVariable("shard-id") String shardId) {
+        return coordinatorConfigService.getObjects(shardId);
     }
 }
