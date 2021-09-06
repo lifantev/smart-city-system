@@ -54,17 +54,29 @@ public class DataServiceImpl implements DataService {
 
         Iterable<ScsObject> objectIterable = scsObjectRepository.findAllByGeoPosXIsBetweenAndGeoPosYIsBetween(lowerX, upperX, lowerY, upperY);
 
-        List<ScsObject> entityList = new ArrayList<>();
-        objectIterable.forEach(entityList::add);
-        List<ScsObjectDto> dtoList = entityList.stream().map(mapper::toDto).collect(Collectors.toList());
-        log.info("Object from area fetched, counted={{}}", dtoList.size());
-        return dtoList;
+        return getObjectDtos(objectIterable);
     }
 
     @Override
     public String getAllTypes() {
         log.debug("Fetching types for shard with id {{}}", shardId);
         return typeRepository.findAllTypesJson();
+    }
+
+    @Override
+    public List<ScsObjectDto> getAllObjects() {
+        log.debug("Fetching objects for shard with id {{}}", shardId);
+        Iterable<ScsObject> objectIterable = scsObjectRepository.findAll();
+
+        return getObjectDtos(objectIterable);
+    }
+
+    private List<ScsObjectDto> getObjectDtos(Iterable<ScsObject> objectIterable) {
+        List<ScsObject> entityList = new ArrayList<>();
+        objectIterable.forEach(entityList::add);
+        List<ScsObjectDto> dtoList = entityList.stream().map(mapper::toDto).collect(Collectors.toList());
+        log.info("Object from area fetched, counted={{}}", dtoList.size());
+        return dtoList;
     }
 
     @Override
