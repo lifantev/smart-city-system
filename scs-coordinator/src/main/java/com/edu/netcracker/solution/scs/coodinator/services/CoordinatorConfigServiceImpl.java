@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service("coordinator-config-service")
 @Slf4j
@@ -26,26 +28,11 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
     @Value("/api/v1/geo-sharding/objects")
     private String URL_OBJECTS;
 
-
     @Autowired
     private List<List<Pair<String, Integer>>> clusters;
 
-    private Map<String, List<Pair<String, Integer>>> clustersByShardIdMap;
-
-    private Map<String, List<Pair<String, Integer>>> clustersByShardIdMap() {
-        if (clustersByShardIdMap == null) {
-            clustersByShardIdMap = new HashMap<>();
-            for (List<Pair<String, Integer>> cluster : clusters) {
-                CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
-                HttpHeaders headers = new HttpHeaders();
-                headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                BackendInfoDTO backendInfoDTO = coordinatorRestTemplate.getForObject(URL_CONFIG, BackendInfoDTO.class, headers);
-                clustersByShardIdMap.put(backendInfoDTO.getShardId(), cluster);
-            }
-        }
-        return clustersByShardIdMap;
-    }
+    @Autowired
+    private CoordinatorClustersConfig clustersConfig;
 
     public List<BackendInfoDTO> getInfo(){
         List<BackendInfoDTO> list = new ArrayList<>();
@@ -62,7 +49,7 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
     }
 
     public String getModel(String shardId) {
-        List<Pair<String, Integer>> cluster = clustersByShardIdMap().get(shardId);
+        List<Pair<String, Integer>> cluster = clustersConfig.clustersByShardIdMap().get(shardId);
         CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -73,7 +60,7 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
     }
 
     public List<ScsObjectDTO> getObjects(String shardId) {
-        List<Pair<String, Integer>> cluster = clustersByShardIdMap().get(shardId);
+        List<Pair<String, Integer>> cluster = clustersConfig.clustersByShardIdMap().get(shardId);
         CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);

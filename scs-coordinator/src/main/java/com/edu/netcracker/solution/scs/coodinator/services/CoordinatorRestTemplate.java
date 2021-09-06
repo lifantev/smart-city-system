@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
@@ -18,6 +19,12 @@ import java.util.List;
 public class CoordinatorRestTemplate extends RestTemplate {
 
     private List<Pair<String, Integer>> servers;
+
+    CoordinatorRestTemplate(ClientHttpRequestFactory requestFactory, List<Pair<String, Integer>> servers) {
+        super();
+        this.setRequestFactory(requestFactory);
+        this.servers = servers;
+    }
 
     CoordinatorRestTemplate(List<Pair<String, Integer>> servers){
         this.servers = servers;

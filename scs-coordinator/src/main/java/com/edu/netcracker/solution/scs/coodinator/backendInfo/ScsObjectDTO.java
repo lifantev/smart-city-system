@@ -12,6 +12,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class ScsObjectDTO {
     private String id;
+    @JsonProperty("shard-id")
+    private String shardId;
     private String type;
     private String name;
     private String description;
