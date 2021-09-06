@@ -204,8 +204,8 @@ services:
     networks:
       cdev-network:
     depends_on:
-      - cdev-backend-1-1
-      - cdev-backend-1-2
+      - cdev-backend-2-1
+      - cdev-backend-2-2
 
 
   cdev-haproxy-3-1:
