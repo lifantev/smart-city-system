@@ -20,9 +20,8 @@ public class TypeRepositoryImpl implements TypeRepository {
     @Value("classpath:${scs.backend.data.model}")
     private Resource resourceFile;
 
-    private Map<String, Object> typeMap;
-    // json representation
-    private String typeJson;
+    // json list of types
+    private String typesJson;
 
     @PostConstruct
     public void TypeRepositoryInit() throws RestException {
@@ -30,11 +29,11 @@ public class TypeRepositoryImpl implements TypeRepository {
         try {
             // initialize map with types from yaml
             ObjectMapper mapperYaml = new ObjectMapper(new YAMLFactory());
-            typeMap = mapperYaml.readValue(resourceFile.getInputStream(), new TypeReference<Map<String, Object>>() {
-            });
+            Map<String, Object> typeMap = mapperYaml.readValue(resourceFile.getInputStream(),
+                    new TypeReference<Map<String, Object>>() {});
 
             ObjectMapper mapperJson = new ObjectMapper();
-            typeJson = mapperJson.writeValueAsString(typeMap);
+            typesJson = mapperJson.writeValueAsString(typeMap);
         } catch (Exception e) {
             log.error("Model types fetching error from file {{}}", resourceFile.getFilename());
             throw new RestException(RestExceptionEnum.ERR_000_006);
@@ -42,12 +41,7 @@ public class TypeRepositoryImpl implements TypeRepository {
     }
 
     @Override
-    public String findAllTypeJson() {
-        return typeJson;
-    }
-
-    @Override
-    public Map<String, Object> findAllTypeMap() {
-        return typeMap;
+    public String findAllTypesJson() {
+        return typesJson;
     }
 }

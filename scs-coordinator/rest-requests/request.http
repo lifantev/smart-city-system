@@ -1,29 +1,22 @@
-# http://localhost:27011/api/v1/data
-
-### get with geo position
-
-GET http://localhost:27011/api/v1/data/geo?x1=1.0&x2=90.0&y1=10.0&y2=80.0
+# http://localhost:27066/api/v1/data
 
 ### get by id
 
-GET http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a78
-
-### get by id
-
-GET http://localhost:27011/api/v1/data/types
+GET http://localhost:27066/api/v1/data/102:b3af59c4-e8ec-49e6-82ce-0ce7420216f0
 
 ### delete by id
 
-DELETE http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a78
+DELETE http://localhost:27066/api/v1/data/101:d05e7afa-b79d-46fd-85bb-76fad3602e95
 
 ### valid, with all fields
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27066/api/v1/data
 Content-Type: application/json
 
 {
+  "shard-id": "103",
   "type": "ip-camera",
-  "name": "IP Camera#51",
+  "name": "IP Camera#57",
   "description": "Simple description",
   "geo-pos-x": 123.123,
   "geo-pos-y": 31.41,
@@ -35,10 +28,11 @@ Content-Type: application/json
 
 ### valid, with all fields
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27066/api/v1/data
 Content-Type: application/json
 
 {
+  "shard-id": "102",
   "type": "base-station",
   "name": "BaseStation 1",
   "description": "Simple description",
@@ -52,10 +46,11 @@ Content-Type: application/json
 
 ### valid, another type, no description
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27066/api/v1/data
 Content-Type: application/json
 
 {
+  "shard-id": "103",
   "type": "wifi-router",
   "name": "WiFi#52",
   "geo-pos-x": 95.0,
@@ -67,10 +62,11 @@ Content-Type: application/json
 
 ### invalid, no geo-pos-x
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27066/api/v1/data
 Content-Type: application/json
 
 {
+  "shard-id": "101",
   "type": "ip-camera",
   "name": "IP Camera#52",
   "geo-pos-y": 31.41,
@@ -81,10 +77,11 @@ Content-Type: application/json
 
 ### invalid, no name
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27066/api/v1/data
 Content-Type: application/json
 
 {
+  "shard-id": "101",
   "type": "ip-camera",
   "geo-pos-x": 123.123,
   "geo-pos-y": 31.41,
@@ -95,20 +92,20 @@ Content-Type: application/json
 
 ### patch to object without model name, with changes to position and type
 
-PATCH http://localhost:27021/api/v1/data/102:b3af59c4-e8ec-49e6-82ce-0ce7420216f0
+PATCH http://localhost:27066/api/v1/data/101:43a03d56-309b-4c20-97d8-169078db3e72
 Content-Type: application/json
 
 {
-  "type": "lamp-post",
-  "geo-pos-x": 15.0,
+  "type": "info-table",
+  "geo-pos-x": 25.0,
   "parameters": {
-    "model-name": "HAC-ME1200D-LS"
+    "model-name": "HAC-123-abc"
   }
 }
 
 ### valid, with all fields
 
-PUT http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+PUT http://localhost:27066/api/v1/data/101:ec7ff757-dcde-4839-8440-3627589f1ff5
 Content-Type: application/json
 
 {
@@ -125,7 +122,7 @@ Content-Type: application/json
 
 ### invalid, no name
 
-PUT http://localhost:27011/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
+PUT http://localhost:27066/api/v1/data/2bf31e21-fee7-41c2-8380-771f4bbb6493
 Content-Type: application/json
 
 {

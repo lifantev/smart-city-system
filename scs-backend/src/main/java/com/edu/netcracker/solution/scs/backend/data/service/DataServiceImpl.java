@@ -7,19 +7,17 @@ import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectReposi
 import com.edu.netcracker.solution.scs.backend.data.model.type.TypeRepository;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 import com.edu.netcracker.solution.scs.backend.exception.RestExceptionEnum;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Transactional
 @Service
-@AllArgsConstructor
 @Slf4j
 public class DataServiceImpl implements DataService {
 
@@ -27,6 +25,19 @@ public class DataServiceImpl implements DataService {
     private final TypeRepository typeRepository;
     private final DataValidationService validator;
     private final ScsObjectMapper mapper;
+
+    public DataServiceImpl(ScsObjectRepository scsObjectRepository,
+                           TypeRepository typeRepository,
+                           DataValidationService validator,
+                           ScsObjectMapper mapper) {
+        this.scsObjectRepository = scsObjectRepository;
+        this.typeRepository = typeRepository;
+        this.validator = validator;
+        this.mapper = mapper;
+    }
+
+    @Value("${scs.backend.shard-id}")
+    private String shardId;
 
     @Override
     public List<ScsObjectDto> getObjectsInArea(double x1, double x2, double y1, double y2)
@@ -43,17 +54,29 @@ public class DataServiceImpl implements DataService {
 
         Iterable<ScsObject> objectIterable = scsObjectRepository.findAllByGeoPosXIsBetweenAndGeoPosYIsBetween(lowerX, upperX, lowerY, upperY);
 
+        return getObjectDtos(objectIterable);
+    }
+
+    @Override
+    public String getAllTypes() {
+        log.debug("Fetching types for shard with id {{}}", shardId);
+        return typeRepository.findAllTypesJson();
+    }
+
+    @Override
+    public List<ScsObjectDto> getAllObjects() {
+        log.debug("Fetching objects for shard with id {{}}", shardId);
+        Iterable<ScsObject> objectIterable = scsObjectRepository.findAll();
+
+        return getObjectDtos(objectIterable);
+    }
+
+    private List<ScsObjectDto> getObjectDtos(Iterable<ScsObject> objectIterable) {
         List<ScsObject> entityList = new ArrayList<>();
         objectIterable.forEach(entityList::add);
         List<ScsObjectDto> dtoList = entityList.stream().map(mapper::toDto).collect(Collectors.toList());
         log.info("Object from area fetched, counted={{}}", dtoList.size());
         return dtoList;
-    }
-
-    @Override
-    public String getTypesInArea(double x1, double x2, double y1, double y2) {
-        log.debug("Fetching types in area x1={{}} x2={{}} y1={{}} y2={{}}", x1, x2, y1, y2);
-        return typeRepository.findAllTypeJson();
     }
 
     @Override
@@ -71,8 +94,9 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public @NotNull String createObject(ScsObjectDto object) throws RestException {
-        // UUID as id for ScsObject
-        object.setId(UUID.randomUUID().toString());
+        // id for ScsObject is SHARD-ID:UUID
+        String id = String.format("%s:%s", shardId, UUID.randomUUID());
+        object.setId(id);
         validator.validateObjectForSaving(object);
         ScsObject toStore = mapper.toEntity(object);
 
