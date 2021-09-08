@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Geoview} from './components/geoview/Geoview.js';
+import {Spin} from "antd";
 
 function App() {
 
@@ -28,7 +29,21 @@ function App() {
                 </Switch>
             </Router>
         </main> :
-        <div>Loading</div>;
+        <div  style={{
+            background: "rgba(44, 44, 44, 0.1)",
+            zIndex: "1000",
+            width:"100wh",
+            height:"100vh",
+            backgroundColor : "transparent"
+        }}>
+            <Spin style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: "1000"
+            }}/>
+        </div>
 }
 
 export default App;
