@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -20,7 +19,7 @@ public class CoordinatorConfiguration {
 
     @Bean("backend-clusters")
     public List<List<Pair<String, Integer>>> backendClusters() throws Exception {
-        String [] list1 = clusters.split(" ");
+        String[] list1 = clusters.split(" ");
         List<List<String>> backends = new ArrayList<>();
         for (int i = 0; i < list1.length; i++) {
             String[] helpArray = list1[i].split("\\|");
@@ -31,7 +30,7 @@ public class CoordinatorConfiguration {
         for (int i = 0; i < backends.size(); i++) {
             for (int j = 0; j < backends.get(i).size(); j++) {
                 String[] list = backends.get(i).get(j).split(":");
-                if(list.length != 2){
+                if (list.length != 2) {
                     throw new Exception("Wring format for SCS_COORDINATOR_BACKENDS environment variable, unable to parse");
                 }
                 helpList.add(Pair.of(list[0], Integer.parseInt(list[1])));

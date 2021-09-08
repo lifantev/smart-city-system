@@ -14,6 +14,13 @@ docker build -t netcracker/scs-backend .
 echo "[SCS BUILD] >>>> Backend completed!"
 cd $cwd
 
+# Build HaProxy and docker
+echo "[SCS BUILD] >>>> HaProxy building..."
+cd scs-backend-haproxy
+docker build -t netcracker/scs-backend-haproxy .
+echo "[SCS BUILD] >>>> HaProxy completed!"
+cd $cwd
+
 # Build Coordinator and docker
 echo "[SCS BUILD] >>>> Coordinator building..."
 cd scs-coordinator
@@ -23,7 +30,7 @@ docker build -t netcracker/scs-coordinator .
 echo "[SCS BUILD] >>>> Coordinator completed!"
 cd $cwd
 
-# Build Coordinator and docker
+# Build Client and docker
 echo "[SCS BUILD] >>>> Client building..."
 cd scs-client
 docker build -t netcracker/scs-client .
