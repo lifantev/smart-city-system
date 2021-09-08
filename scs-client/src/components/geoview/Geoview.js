@@ -55,7 +55,7 @@ export function Geoview(){
 
                 setMyMap(myMap.set(valueElement.name, mainArray.slice()))
                 mainArray = []
-                
+
             }
 
         })
