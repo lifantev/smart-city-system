@@ -38,4 +38,14 @@ public class CoordinatorController {
     public @ResponseBody List<ScsObjectDTO> getObjects(@PathVariable("shard-id") String shardId) {
         return coordinatorConfigService.getObjects(shardId);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/geo")
+    public @ResponseBody List <String> showObjects(@RequestParam(value = "x1") double x1, @RequestParam(value = "y1") double y1,
+                                                           @RequestParam(value = "x2") double x2, @RequestParam(value = "y2") double y2){
+
+        log.info("Request params : x1= {{}}, y1 = {{}}, x2 = {{}}, y2 = {{}}", x1, y1, x2, y2);
+
+        return coordinatorConfigService.showObjects(x1, y1, x2, y2);
+
+    }
 }
