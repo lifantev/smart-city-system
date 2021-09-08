@@ -57,7 +57,6 @@ export function Geoview(){
                 mainArray = []
 
             }
-
         })
     }
 
