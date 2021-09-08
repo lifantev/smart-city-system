@@ -38,3 +38,4 @@ scs-coordinator/target
 scs-client/node_modules
 scs-client/build
 /node_modules
+node_modules/
