@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  sdev-arango-db:
+  mdev-arango-db:
     image: arangodb:latest
     environment:
       - ARANGO_NO_AUTH=1
@@ -10,14 +10,13 @@ services:
       - arangodb_data_container:/var/lib/arangodb3
       - arangodb_apps_data_container:/var/lib/arangodb3-apps
     networks:
-      sdev-network:
+      mdev-network:
 
-
-  sdev-backend:
+  mdev-backend-1:
     image: netcracker/scs-backend:latest
     environment:
-      ARANGO_HOSTS: sdev-arango-db:8529
-      ARANGO_DATABASE: scs
+      ARANGO_HOSTS: mdev-arango-db:8529
+      ARANGO_DATABASE: scs-1
       SCS_SHARD_ID: 101
       SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
       SCS_CLUSTER_POSITIONS: >-
@@ -31,25 +30,63 @@ services:
         55.9077:37.5363 55.9056:37.5262 55.8974:37.5070
       SCS_CLUSTER_NAME: "Долгопрудный"
     ports:
-      - "27011:8080"
+      - "27010:8080"
     depends_on:
-      - sdev-arango-db
+      - mdev-arango-db
     networks:
-      sdev-network:
+      mdev-network:
+
+  mdev-backend-2:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: mdev-arango-db:8529
+      ARANGO_DATABASE: scs-2
+      SCS_SHARD_ID: 102
+      SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.9263:37.7139 55.9330:37.7714 55.8888:37.7701
+      SCS_CLUSTER_NAME: "Мытищи"
+    ports:
+      - "27020:8080"
+    depends_on:
+      - mdev-arango-db
+    networks:
+      mdev-network:
+
+  mdev-backend-3:
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: mdev-arango-db:8529
+      ARANGO_DATABASE: scs-3
+      SCS_SHARD_ID: 103
+      SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.8084:37.3915 55.8666:37.3650 55.8273:37.2733
+      SCS_CLUSTER_NAME: "Красногорск"
+    ports:
+      - "27030:8080"
+    depends_on:
+      - mdev-arango-db
+    networks:
+      mdev-network:
 
 
-  sdev-coordinator:
+  mdev-coordinator:
     image: netcracker/scs-coordinator:latest
     environment:
-      SCS_COORDINATOR_BACKENDS: "sdev-backend:8080"
+      SCS_COORDINATOR_BACKENDS: "mdev-backend-1:8080 mdev-backend-2:8080 mdev-backend-3:8080"
     ports:
       - "27066:8080"
     depends_on:
-      - sdev-backend
+      - mdev-backend-1
+      - mdev-backend-2
+      - mdev-backend-3
     networks:
-      sdev-network:
+      mdev-network:
 
-  sdev-client:
+
+
+  mdev-client:
     image: netcracker/scs-client:latest
     environment:
       SCS_COORDINATOR_PROTOCOL: "http"
@@ -58,14 +95,14 @@ services:
     ports:
       - "27077:80"
     depends_on:
-      - sdev-coordinator
+      - mdev-coordinator
     networks:
-      sdev-network:
+      mdev-network:
 
 
 
 networks:
-  sdev-network:
+  mdev-network:
 
 
 

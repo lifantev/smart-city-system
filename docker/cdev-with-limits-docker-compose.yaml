@@ -1,6 +1,10 @@
 version: '3.7'
 services:
   cdev-arango-db-1:
+    deploy:
+      resources:
+        limits:
+          memory: 250M
     image: arangodb:latest
     environment:
       - ARANGO_NO_AUTH=1
@@ -14,6 +18,10 @@ services:
 
 
   cdev-arango-db-2:
+    deploy:
+      resources:
+        limits:
+          memory: 250M
     image: arangodb:latest
     environment:
       - ARANGO_NO_AUTH=1
@@ -27,6 +35,10 @@ services:
 
 
   cdev-arango-db-3:
+    deploy:
+      resources:
+        limits:
+          memory: 250M
     image: arangodb:latest
     environment:
       - ARANGO_NO_AUTH=1
@@ -41,6 +53,10 @@ services:
 
 
   cdev-backend-1-1:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: cdev-arango-db-1:8529
@@ -64,30 +80,38 @@ services:
       cdev-network:
 
   cdev-backend-1-2:
-      image: netcracker/scs-backend:latest
-      environment:
-        ARANGO_HOSTS: cdev-arango-db-1:8529
-        SCS_SHARD_ID: 101
-        SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
-        SCS_CLUSTER_POSITIONS: >-
-          55.8974:37.5070 55.9066:37.5008 55.9072:37.4839 55.9130:37.4824 55.9311:37.4884
-          55.9607:37.4872 55.9645:37.48 55.9557:37.467 55.9574:37.4589 55.9669:37.4672
-          55.9701:37.4574 55.9734:37.4549 55.9756:37.4575 55.9736:37.4716 55.975:37.4721
-          55.979:37.4668 55.9878:37.4693 55.9932:37.4793 55.996:37.4934 55.9905:37.5108
-          55.9869:37.5139 55.9863:37.5189 55.9841:37.5175 55.983:37.524 55.9792:37.5241
-          55.975:37.5239 55.9688:37.5312 55.9641:37.533 55.9574:37.5339 55.9569:37.5233
-          55.9542:37.5248 55.9508:37.5316 55.9473:37.5289 55.944:37.5342 55.94192:37.51924
-          55.9077:37.5363 55.9056:37.5262 55.8974:37.5070
-        SCS_CLUSTER_NAME: "Долгопрудный"
-      ports:
-        - "27012:8080"
-      depends_on:
-        - cdev-arango-db-1
-      networks:
-        cdev-network:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+    image: netcracker/scs-backend:latest
+    environment:
+      ARANGO_HOSTS: cdev-arango-db-1:8529
+      SCS_SHARD_ID: 101
+      SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
+      SCS_CLUSTER_POSITIONS: >-
+        55.8974:37.5070 55.9066:37.5008 55.9072:37.4839 55.9130:37.4824 55.9311:37.4884
+        55.9607:37.4872 55.9645:37.48 55.9557:37.467 55.9574:37.4589 55.9669:37.4672
+        55.9701:37.4574 55.9734:37.4549 55.9756:37.4575 55.9736:37.4716 55.975:37.4721
+        55.979:37.4668 55.9878:37.4693 55.9932:37.4793 55.996:37.4934 55.9905:37.5108
+        55.9869:37.5139 55.9863:37.5189 55.9841:37.5175 55.983:37.524 55.9792:37.5241
+        55.975:37.5239 55.9688:37.5312 55.9641:37.533 55.9574:37.5339 55.9569:37.5233
+        55.9542:37.5248 55.9508:37.5316 55.9473:37.5289 55.944:37.5342 55.94192:37.51924
+        55.9077:37.5363 55.9056:37.5262 55.8974:37.5070
+      SCS_CLUSTER_NAME: "Долгопрудный"
+    ports:
+      - "27012:8080"
+    depends_on:
+      - cdev-arango-db-1
+    networks:
+      cdev-network:
 
 
   cdev-backend-2-1:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: cdev-arango-db-2:8529
@@ -104,6 +128,10 @@ services:
       cdev-network:
 
   cdev-backend-2-2:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: cdev-arango-db-2:8529
@@ -121,6 +149,10 @@ services:
 
 
   cdev-backend-3-1:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: cdev-arango-db-3:8529
@@ -137,6 +169,10 @@ services:
       cdev-network:
 
   cdev-backend-3-2:
+    deploy:
+      resources:
+        limits:
+          memory: 150M
     image: netcracker/scs-backend:latest
     environment:
       ARANGO_HOSTS: cdev-arango-db-3:8529
@@ -155,6 +191,10 @@ services:
 
 
   cdev-haproxy-1-1:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-1-1 cdev-backend-1-2
@@ -168,6 +208,10 @@ services:
       cdev-network:
 
   cdev-haproxy-1-2:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-1-1 cdev-backend-1-2
@@ -182,6 +226,10 @@ services:
 
 
   cdev-haproxy-2-1:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-2-1 cdev-backend-2-2
@@ -195,6 +243,10 @@ services:
       cdev-network:
 
   cdev-haproxy-2-2:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-2-1 cdev-backend-2-2
@@ -209,6 +261,10 @@ services:
 
 
   cdev-haproxy-3-1:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-3-1 cdev-backend-3-2
@@ -222,6 +278,10 @@ services:
       cdev-network:
 
   cdev-haproxy-3-2:
+    deploy:
+      resources:
+        limits:
+          memory: 50M
     image: netcracker/scs-backend-haproxy:latest
     environment:
       SCS_BACKENDS: cdev-backend-3-1 cdev-backend-3-2
@@ -237,6 +297,10 @@ services:
 
 
   cdev-coordinator:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-coordinator:latest
     environment:
       SCS_COORDINATOR_BACKENDS: "cdev-haproxy-1-1:8080|cdev-haproxy-1-2:8080 cdev-haproxy-2-1:8080|cdev-haproxy-2-2:8080 cdev-haproxy-3-1:8080|cdev-haproxy-3-2:8080"
@@ -255,6 +319,10 @@ services:
 
 
   cdev-client:
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     image: netcracker/scs-client:latest
     environment:
       SCS_COORDINATOR_PROTOCOL: "http"
@@ -267,12 +335,8 @@ services:
     networks:
       cdev-network:
 
-
-
 networks:
   cdev-network:
-
-
 
 volumes:
   arangodb_data_container_1:
