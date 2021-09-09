@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import {Spin} from 'antd';
 import 'antd/dist/antd.css';
 import axios from "axios";
+import {GetAxios} from "../GetAxios";
 
 
 function LogCenterZoom() {
@@ -19,7 +20,7 @@ function LogCenterZoom() {
 }
 
 
-function MyComponent({map}) {
+function DrawAreaDependOnZoom({map}) {
     const[myZoom, setMyZoom] = useState()
     const geomap = useMapEvents({
         zoom: () => {
@@ -43,7 +44,7 @@ export function Geoview(){
 
     const fetchAreas = async function () {
 
-        const response = await getAxios().get(`/api/v1/geo-sharding/config`)
+        const response = await GetAxios().get(`/api/v1/geo-sharding/config`)
             .then(res => res.data).then(function (value){
 
             for (const valueElement of value) {
@@ -81,7 +82,7 @@ export function Geoview(){
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <LogCenterZoom/>
-                <MyComponent map={myMap}/>
+                <DrawAreaDependOnZoom map={myMap}/>
             </MapContainer>
 
         </div> :
@@ -132,23 +133,3 @@ function DrawArea({map}) {
         </div>
     )
 }
-
-
-function getAxios(){
-    let str = localStorage.getItem('scs-properties')
-    const jsonstr = JSON.parse(str)
-    return axios.create({
-        baseURL : jsonstr.scs_coordinator_protocol + "://" + jsonstr.scs_coordinator_host + ":" + jsonstr.scs_coordinator_port,
-        responseType : "json",
-        headers :{
-            "Access-Control-Allow-Credentials" : true
-        }
-    })
-}
-
-
-
-
-
-
-
