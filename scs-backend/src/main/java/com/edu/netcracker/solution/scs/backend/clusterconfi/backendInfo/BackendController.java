@@ -5,14 +5,19 @@ import com.edu.netcracker.solution.scs.backend.data.service.DataService;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RequestMapping("/api/v1/geo-sharding")
 @RestController
+@CrossOrigin
 public class BackendController {
 
     @Autowired
