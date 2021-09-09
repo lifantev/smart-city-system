@@ -16,9 +16,9 @@ services:
   sdev-backend:
     image: netcracker/scs-backend:latest
     environment:
+      SCS_SHARD_ID: 101
       ARANGO_HOSTS: sdev-arango-db:8529
       ARANGO_DATABASE: scs
-      SCS_SHARD_ID: 101
       SCS_CLUSTER_MODEL: data/dolgoprudnii.yaml
       SCS_CLUSTER_POSITIONS: >-
         55.8974:37.5070 55.9066:37.5008 55.9072:37.4839 55.9130:37.4824 55.9311:37.4884

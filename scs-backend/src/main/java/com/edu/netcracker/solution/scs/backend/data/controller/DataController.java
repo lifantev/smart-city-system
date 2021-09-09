@@ -1,12 +1,13 @@
 package com.edu.netcracker.solution.scs.backend.data.controller;
 
+import com.edu.netcracker.solution.scs.backend.data.model.TypesObjectsDto;
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectDto;
+import com.edu.netcracker.solution.scs.backend.data.model.type.ScsTypeDto;
 import com.edu.netcracker.solution.scs.backend.data.service.DataService;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class DataController {
      * @return JSON with model objects and types
      */
     @GetMapping(value = "/geo", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<String> getModelAndObjectsInArea(
+    ResponseEntity<TypesObjectsDto> getModelAndObjectsInArea(
             @RequestParam(name = "x1") double x1,
             @RequestParam(name = "x2") double x2,
             @RequestParam(name = "y1") double y1,
@@ -36,21 +37,12 @@ public class DataController {
             throws RestException {
 
         // fetch types
-        String typesStr = dataService.getAllTypes();
-        JSONObject typesJson = new JSONObject(typesStr);
+        List<ScsTypeDto> types = dataService.getAllTypes();
 
         // fetch objects
-        List<ScsObjectDto> objectsInArea = dataService.getObjectsInArea(x1, x2, y1, y2);
-        Map<String, List<ScsObjectDto>> objects = new TreeMap<>();
-        objects.put("objects", objectsInArea);
-        JSONObject objectsJson = new JSONObject(objects);
+        List<ScsObjectDto> objects = dataService.getObjectsInArea(x1, x2, y1, y2);
 
-        // merge in one json
-        JSONObject combined = new JSONObject();
-        combined.put("types", typesJson.get("types"));
-        combined.put("objects", objectsJson.get("objects"));
-
-        return new ResponseEntity<>(combined.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(new TypesObjectsDto(types, objects), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -61,10 +53,8 @@ public class DataController {
     }
 
     @GetMapping(value = "/model", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<String> getAllTypes() {
-        String typesStr = dataService.getAllTypes();
-        JSONObject typesJson = new JSONObject(typesStr);
-        return new ResponseEntity<>(typesJson.get("types").toString(), HttpStatus.OK);
+    ResponseEntity<List<ScsTypeDto>> getAllTypes() {
+        return new ResponseEntity<>(dataService.getAllTypes(), HttpStatus.OK);
     }
 
     /**

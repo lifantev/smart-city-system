@@ -1,12 +1,15 @@
 package com.edu.netcracker.solution.scs.backend.data.service;
 
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectDto;
+import com.edu.netcracker.solution.scs.backend.data.model.type.ScsTypeDto;
 import com.edu.netcracker.solution.scs.backend.data.model.type.TypeRepository;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 import com.edu.netcracker.solution.scs.backend.exception.RestExceptionEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -42,13 +45,10 @@ public class DataValidationServiceImpl implements DataValidationService {
     @Override
     public void validateType(String type) throws RestException {
         log.debug("Validating object types");
-        String json = typeRepository.findAllTypesJson();
+        List<ScsTypeDto> types = typeRepository.findAllTypes();
 
-        // TODO : improve search
-
-        String searchType = String.format("\"type\":\"%s\"", type);
-        if (!json.contains(searchType)) {
-            log.error("Validating error for type {{}} in {{}}, searched by {{}}", type, json, searchType);
+        if (!types.stream().anyMatch(dto -> dto.getType().equals(type))) {
+            log.error("Validating error for type {{}}", type);
             throw new RestException(RestExceptionEnum.ERR_000_004);
         }
     }

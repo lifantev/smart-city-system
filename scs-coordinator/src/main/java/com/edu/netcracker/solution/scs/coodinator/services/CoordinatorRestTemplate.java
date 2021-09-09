@@ -41,7 +41,11 @@ public class CoordinatorRestTemplate extends RestTemplate {
                         .host(server.getLeft())
                         .port(server.getRight())
                         .scheme("http")
-                        .path(url.getPath()).build(1);
+                        .path(url.getRawPath()).build(1);
+
+                if (null != url.getQuery())
+                    newUrl = UriComponentsBuilder.fromUri(newUrl)
+                            .query(url.getQuery()).build(1);
 
                 log.info("New URI {{}} for server {{}}", newUrl, server);
                 return super.doExecute(newUrl, method, requestCallback, responseExtractor);

@@ -1,5 +1,6 @@
 package com.edu.netcracker.solution.scs.coodinator.backendInfo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScsObjectDTO {
     private String id;
     @JsonProperty("shard-id")

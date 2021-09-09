@@ -1,6 +1,8 @@
 package com.edu.netcracker.solution.scs.backend.data.model.type;
 
+import java.util.List;
+
 public interface TypeRepository {
 
-    String findAllTypesJson();
+    List<ScsTypeDto> findAllTypes();
 }
