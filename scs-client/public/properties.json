@@ -1,5 +1,5 @@
 {
-  "scs_coordinator_protocol" : "${SCS_COORDINATOR_PROTOCOL}",
-  "scs_coordinator_host" : "${SCS_COORDINATOR_HOST}",
-  "scs_coordinator_port" : "${SCS_COORDINATOR_PORT}"
+  "scs-coordinator-protocol" : "${SCS_COORDINATOR_PROTOCOL}",
+  "scs-coordinator-host" : "${SCS_COORDINATOR_HOST}",
+  "scs-coordinator-port" : "${SCS_COORDINATOR_PORT}"
 }
