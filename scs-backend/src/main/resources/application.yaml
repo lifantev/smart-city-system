@@ -10,7 +10,7 @@ server:
 spring:
   data:
     arangodb:
-      database: ${ARANGO_DATABASE:scs}
+      database: ${ARANGO_DATABASE}
       hosts: ${ARANGO_HOSTS}
 
 
