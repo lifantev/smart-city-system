@@ -9,7 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,23 +82,27 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
     }
 
     @Override
-    public List<ClusterDataDTO> showObjects(double x1, double y1, double x2, double y2) {
+    public List<ClusterDataDTO> showObjects(double x1, double y1, double x2, double y2) throws URISyntaxException {
         List<ClusterDataDTO> clustersData = new ArrayList<>();
 
-        String newURL = URL_CLUSTERS_OBJECTS + "?x1=" + x1 + "&x2=" + x2 + "&y1=" + y1 + "&y2=" + y2;
+        URI newURL = UriComponentsBuilder.fromUri(new URI(URL_CLUSTERS_OBJECTS))
+                .queryParam("x1", x1)
+                .queryParam("x2", x2)
+                .queryParam("y1", y1)
+                .queryParam("y2", y2).build(1);
 
         List<BackendInfoDTO> backendInfoDTOS = getInfo();
 
         for (BackendInfoDTO backendInfoDTO : backendInfoDTOS) {
-            log.info("Check {{}}", backendInfoDTO.getName());
+            log.debug("Check {{}}", backendInfoDTO.getName());
             if (checkCrossing(backendInfoDTO, x1, y1, x2, y2)) {
                 List<Pair<String, Integer>> cluster = clustersConfig.clustersByShardIdMap().get(backendInfoDTO.getShardId());
                 CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                TypesObjectsDTO typesObjectsDTO = coordinatorRestTemplate.getForObject(newURL, TypesObjectsDTO.class, headers);
-                log.info("Cluster {{}} objects added", backendInfoDTO.getName());
+                TypesObjectsDTO typesObjectsDTO = coordinatorRestTemplate.getForObject(newURL.toString(), TypesObjectsDTO.class, headers);
+                log.debug("Cluster {{}} objects added", backendInfoDTO.getName());
                 if (null != typesObjectsDTO) {
                     ClusterDataDTO data = new ClusterDataDTO(backendInfoDTO.getName(),
                             backendInfoDTO.getShardId(),
@@ -108,7 +115,7 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
         }
 
         if (clustersData.isEmpty())
-            log.info("No clusters in this area");
+            log.debug("No clusters in this area");
 
         return clustersData;
     }

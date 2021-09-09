@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -41,10 +42,9 @@ public class CoordinatorController {
         return coordinatorConfigService.getObjects(shardId);
     }
 
-    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, value = "/geo")
-    public @ResponseBody List<ClusterDataDTO> showObjects(@RequestParam(value = "x1") double x1, @RequestParam(value = "y1") double y1,
-                                                          @RequestParam(value = "x2") double x2, @RequestParam(value = "y2") double y2){
+    public @ResponseBody List <ClusterDataDTO> showObjects(@RequestParam(value = "x1") double x1, @RequestParam(value = "y1") double y1,
+                                                           @RequestParam(value = "x2") double x2, @RequestParam(value = "y2") double y2) throws URISyntaxException {
 
         log.info("Request params : x1= {{}}, y1 = {{}}, x2 = {{}}, y2 = {{}}", x1, y1, x2, y2);
 
