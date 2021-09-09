@@ -1,5 +1,3 @@
-# http://localhost:27011/api/v1/data
-
 ### get with geo position
 
 GET http://localhost:27011/api/v1/data/geo?x1=1.0&x2=90.0&y1=10.0&y2=80.0
@@ -10,7 +8,7 @@ GET http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a78
 
 ### get by id
 
-GET http://localhost:27011/api/v1/data/types
+GET http://localhost:27011/api/v1/data/model
 
 ### delete by id
 

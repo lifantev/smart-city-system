@@ -4,6 +4,7 @@ import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObject;
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectDto;
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectMapper;
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectRepository;
+import com.edu.netcracker.solution.scs.backend.data.model.type.ScsTypeDto;
 import com.edu.netcracker.solution.scs.backend.data.model.type.TypeRepository;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 import com.edu.netcracker.solution.scs.backend.exception.RestExceptionEnum;
@@ -58,9 +59,9 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public String getAllTypes() {
+    public List<ScsTypeDto> getAllTypes() {
         log.debug("Fetching types for shard with id {{}}", shardId);
-        return typeRepository.findAllTypesJson();
+        return typeRepository.findAllTypes();
     }
 
     @Override

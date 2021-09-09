@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -21,7 +22,7 @@ public class TypeRepositoryImpl implements TypeRepository {
     private Resource resourceFile;
 
     // json list of types
-    private String typesJson;
+    private List<ScsTypeDto> types;
 
     @PostConstruct
     public void TypeRepositoryInit() throws RestException {
@@ -29,11 +30,10 @@ public class TypeRepositoryImpl implements TypeRepository {
         try {
             // initialize map with types from yaml
             ObjectMapper mapperYaml = new ObjectMapper(new YAMLFactory());
-            Map<String, Object> typeMap = mapperYaml.readValue(resourceFile.getInputStream(),
-                    new TypeReference<Map<String, Object>>() {});
+            Map<String, List<ScsTypeDto>> typeMap = mapperYaml.readValue(resourceFile.getInputStream(),
+                    new TypeReference<Map<String, List<ScsTypeDto>>>() {});
 
-            ObjectMapper mapperJson = new ObjectMapper();
-            typesJson = mapperJson.writeValueAsString(typeMap);
+            types = typeMap.get("types");
         } catch (Exception e) {
             log.error("Model types fetching error from file {{}}", resourceFile.getFilename());
             throw new RestException(RestExceptionEnum.ERR_000_006);
@@ -41,7 +41,7 @@ public class TypeRepositoryImpl implements TypeRepository {
     }
 
     @Override
-    public String findAllTypesJson() {
-        return typesJson;
+    public List<ScsTypeDto> findAllTypes() {
+        return types;
     }
 }

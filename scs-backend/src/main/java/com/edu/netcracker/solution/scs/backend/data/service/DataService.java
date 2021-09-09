@@ -1,6 +1,7 @@
 package com.edu.netcracker.solution.scs.backend.data.service;
 
 import com.edu.netcracker.solution.scs.backend.data.model.object.ScsObjectDto;
+import com.edu.netcracker.solution.scs.backend.data.model.type.ScsTypeDto;
 import com.edu.netcracker.solution.scs.backend.exception.RestException;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ public interface DataService {
     List<ScsObjectDto> getObjectsInArea(double x1, double x2, double y1, double y2)
             throws RestException;
 
-    String getAllTypes();
+    List<ScsTypeDto> getAllTypes();
 
     List<ScsObjectDto> getAllObjects() throws RestException;
 

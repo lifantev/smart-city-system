@@ -1,8 +1,6 @@
 package com.edu.netcracker.solution.scs.coodinator.services;
 
-import com.edu.netcracker.solution.scs.coodinator.backendInfo.BackendInfoDTO;
-import com.edu.netcracker.solution.scs.coodinator.backendInfo.PositionDTO;
-import com.edu.netcracker.solution.scs.coodinator.backendInfo.ScsObjectDTO;
+import com.edu.netcracker.solution.scs.coodinator.backendInfo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +52,17 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
         return list;
     }
 
-    public String getModel(String shardId) {
+    public List<ScsTypeDTO> getModel(String shardId) {
         List<Pair<String, Integer>> cluster = clustersConfig.clustersByShardIdMap().get(shardId);
         CoordinatorRestTemplate coordinatorRestTemplate = new CoordinatorRestTemplate(cluster);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String modelJson = coordinatorRestTemplate.getForObject(URL_MODEL, String.class, headers);
+        ResponseEntity<ScsTypeDTO[]> response =
+                coordinatorRestTemplate.getForEntity(URL_OBJECTS, ScsTypeDTO[].class, headers);
+        ScsTypeDTO[] types = response.getBody();
         log.info("Model fetched for shard-id {{}}", shardId);
-        return modelJson;
+        return Arrays.asList(types);
     }
 
     public List<ScsObjectDTO> getObjects(String shardId) {
@@ -79,8 +79,8 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
     }
 
     @Override
-    public List<String> showObjects(double x1, double y1, double x2, double y2) {
-        List<String> clustersObjects = new ArrayList<>();
+    public List<ClusterDataDTO> showObjects(double x1, double y1, double x2, double y2) {
+        List<ClusterDataDTO> clustersData = new ArrayList<>();
 
         String newURL = URL_CLUSTERS_OBJECTS + "?x1=" + x1 + "&x2=" + x2 + "&y1=" + y1 + "&y2=" + y2;
 
@@ -94,17 +94,23 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                ResponseEntity<String> response = coordinatorRestTemplate.getForEntity(newURL, String.class, headers);
+                TypesObjectsDTO typesObjectsDTO = coordinatorRestTemplate.getForObject(newURL, TypesObjectsDTO.class, headers);
                 log.info("Cluster {{}} objects added", backendInfoDTO.getName());
-                if (null != response)
-                    clustersObjects.add(backendInfoDTO.getName() + response);
+                if (null != typesObjectsDTO) {
+                    ClusterDataDTO data = new ClusterDataDTO(backendInfoDTO.getName(),
+                            backendInfoDTO.getShardId(),
+                            typesObjectsDTO.getTypes(),
+                            typesObjectsDTO.getObjects()
+                            );
+                    clustersData.add(data);
+                }
             }
         }
 
-        if (clustersObjects.isEmpty())
+        if (clustersData.isEmpty())
             log.info("No clusters in this area");
 
-        return clustersObjects;
+        return clustersData;
     }
 
     @Override

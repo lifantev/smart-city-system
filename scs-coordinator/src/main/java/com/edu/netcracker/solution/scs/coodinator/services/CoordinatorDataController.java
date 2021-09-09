@@ -16,7 +16,8 @@ public class CoordinatorDataController {
 
     @CrossOrigin
     @GetMapping("/{id}")
-    public @ResponseBody ScsObjectDTO getObject(@PathVariable String id, HttpServletRequest request) {
+    public @ResponseBody
+    ScsObjectDTO getObject(@PathVariable String id, HttpServletRequest request) {
         return dataService.getObject(id, request.getRequestURI());
     }
 

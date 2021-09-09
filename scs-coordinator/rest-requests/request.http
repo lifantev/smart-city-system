@@ -1,5 +1,6 @@
-# http://localhost:27066/api/v1/data
+### get with geo position
 
+GET http://localhost:27066/api/v1/geo-sharding/geo?x1=1.0&x2=130.0&y1=10.0&y2=80.0
 ### get by id
 
 GET http://localhost:27066/api/v1/data/102:b3af59c4-e8ec-49e6-82ce-0ce7420216f0
