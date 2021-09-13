@@ -16,15 +16,15 @@ DELETE http://localhost:27011/api/v1/data/123:c11bdb3e-06c4-41be-8f88-55545ac74a
 
 ### valid, with all fields
 
-POST http://localhost:27011/api/v1/data
+POST http://localhost:27010/api/v1/data
 Content-Type: application/json
 
 {
   "type": "ip-camera",
   "name": "IP Camera#51",
   "description": "Simple description",
-  "geo-pos-x": 123.123,
-  "geo-pos-y": 31.41,
+  "geo-pos-x": 55.92948,
+  "geo-pos-y": 37.51831,
   "parameters": {
     "model-name": "HAC-ME1200D-LS",
     "serial-num": "122343431934"

@@ -17,11 +17,7 @@ import java.util.List;
 public class DataValidationServiceImpl implements DataValidationService {
 
     private final TypeRepository typeRepository;
-
-    private static final double MIN_VALID_COORD_X = - 180.0;
-    private static final double MAX_VALID_COORD_X = 180.0;
-    private static final double MIN_VALID_COORD_Y = - 90.0;
-    private static final double MAX_VALID_COORD_Y = 90.0;
+    private final GeoValidationService geoValidationService;
 
     /**
      * Provides all possible validations for model object
@@ -40,7 +36,7 @@ public class DataValidationServiceImpl implements DataValidationService {
 
     /**
      * Validates type, i.e.
-     * Checks if type is present in model types
+     * checks if type is present in model types
      */
     @Override
     public void validateType(String type) throws RestException {
@@ -54,13 +50,13 @@ public class DataValidationServiceImpl implements DataValidationService {
     }
 
     /**
-     * Validates geo position
+     * Validates geo position to be in the polygon,
+     * specified for this shard
      */
     @Override
     public void validateGeoPosition(double geoPosX, double geoPosY) throws RestException {
         log.debug("Validating object positions");
-        if (! ((MIN_VALID_COORD_X < geoPosX && geoPosX < MAX_VALID_COORD_X)
-                && (MIN_VALID_COORD_Y < geoPosY && geoPosY < MAX_VALID_COORD_Y))) {
+        if (! geoValidationService.isPositionOk(geoPosX, geoPosY)) {
             log.error("Validating error for positions x={{}} y={{}}", geoPosX, geoPosY);
             throw new RestException(RestExceptionEnum.ERR_000_003);
         }

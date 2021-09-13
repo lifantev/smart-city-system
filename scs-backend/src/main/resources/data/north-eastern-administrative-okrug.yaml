@@ -9,7 +9,8 @@ types:
       - name: serial-num
         displayed-name: Serial Number
         type: text
-    actions: on/off
+    actions:
+      - name:
 
   - type: wifi-router
     displayed-name: Wi-Fi
