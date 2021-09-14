@@ -1,0 +1,19 @@
+.LogText {
+    visibility: hidden;
+}
+
+.ClusterSelectorAndTypes {
+    width : 30%;
+    height: 100%;
+    display: inline-block;
+}
+
+.ClusterObjectManagement {
+    width: 70%;
+    height: 100%;
+    display: inline-block;
+}
+
+.Parent {
+
+}

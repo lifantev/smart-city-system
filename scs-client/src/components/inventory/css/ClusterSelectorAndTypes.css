@@ -1,0 +1,23 @@
+.Selector{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.HeaderText{
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: large;
+}
+
+.ErrorText {
+    color: crimson;
+}
+
+.RadioItem {
+    color: green;
+    margin-right : 20px;
+    margin-left  : 20px;
+    margin-top   : 5px;
+}

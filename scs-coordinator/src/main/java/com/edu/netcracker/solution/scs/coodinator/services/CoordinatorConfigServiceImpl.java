@@ -62,7 +62,7 @@ public class CoordinatorConfigServiceImpl implements CoordinatorConfigService {
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<ScsTypeDTO[]> response =
-                coordinatorRestTemplate.getForEntity(URL_OBJECTS, ScsTypeDTO[].class, headers);
+                coordinatorRestTemplate.getForEntity(URL_MODEL, ScsTypeDTO[].class, headers);
         ScsTypeDTO[] types = response.getBody();
         log.info("Model fetched for shard-id {{}}", shardId);
         return Arrays.asList(types);
