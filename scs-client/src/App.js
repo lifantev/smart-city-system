@@ -5,6 +5,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Geoview} from './components/geoview/Geoview.js';
 import {Spin} from "antd";
+import Inventory from './components/inventory/Inventory.js';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             <Router>
                 <Switch>
                     <Route path="/geoview" component={Geoview} />
+                    <Route path="/inventory" component={Inventory}/>
                 </Switch>
             </Router>
         </main> :
