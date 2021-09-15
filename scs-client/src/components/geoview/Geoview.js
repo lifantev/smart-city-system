@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './Geoview.css'
-import {MapContainer, TileLayer, useMapEvents, Polygon, SVGOverlay, MapConsumer, Tooltip} from 'react-leaflet'
+import {MapContainer, TileLayer, useMapEvents, Polygon, Tooltip, Popup} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
-import {Spin} from 'antd';
+import {Button, Spin, Typography, Space } from 'antd';
 import 'antd/dist/antd.css';
-import axios from "axios";
 import {GetAxios} from "../GetAxios";
+const { Text, Title } = Typography;
 
 
 function LogCenterZoom() {
@@ -83,6 +83,7 @@ export function Geoview(){
                 />
                 <LogCenterZoom/>
                 <DrawAreaDependOnZoom map={myMap}/>
+                <CreatePopup/>
             </MapContainer>
 
         </div> :
@@ -108,7 +109,7 @@ export function Geoview(){
 
 function DrawArea({map}) {
     let names = Array.from( map.keys() );
-    const purpleOptions = {color: 'purple'}
+    const purpleOptions = {color: "rgb(24,144,255)"}
     const RenderProject = () => {
         let array = [];
         for (let i = 0; i < names.length; i++) {
@@ -132,4 +133,36 @@ function DrawArea({map}) {
             <RenderProject/>
         </div>
     )
+}
+
+function CreatePopup(){
+    const [pos, setPos] = useState([])
+    const map = useMapEvents({
+        contextmenu: (e) => {
+            const { lat, lng } = e.latlng;
+            setPos([lat, lng])
+        }}
+    );
+    if(pos.length != 0) {
+        return (
+            <div>
+                <Popup position={pos}>
+                    <Space direction="vertical">
+                        <Title level={5} underline style={{color : "rgb(24,144,255)"}}>
+                            Current location </Title>
+                        <Text style={{ margin : 'auto'}}>x : {pos[0]}</Text>
+                        <Text style={{ margin : 'auto'}}>y : {pos[1]}</Text>
+                        <Text style={{ margin : 'auto'}}> </Text>
+                    </Space>
+                    <br/>
+                    <Button size="small" type="primary" onClick={() => {ButtonInPopup(pos)}}>Create new object</Button>
+                </Popup>
+            </div>
+        );
+    }
+    return null;
+}
+
+function ButtonInPopup(pos){
+    alert(`Here need to be Dima's function. Location is ${pos[0]} : ${pos[1]}`)
 }
